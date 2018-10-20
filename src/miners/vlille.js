@@ -4,8 +4,8 @@ const request = require("request");
 const elasticsearch = require('elasticsearch');
 
 const esClient = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'info'
+  host: process.env.ES_HOST,
+  log: process.env.ES_LOG_LEVEL
 });
 
 const VLILLE_URL = `${process.env.VLILLE_API_BASE}&rows=-1&apikey=${process.env.VLILLE_API_KEY}`;
