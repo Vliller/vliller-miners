@@ -12,7 +12,7 @@ services:
       - 9200:9200
     volumes:
       # - /etc/localtime:/etc/localtime:ro
-      - ./.data:/var/lib/elasticsearch
+      - ./.data:/usr/share/elasticsearch/data
     environment:
       - DOCKUID=${UID} # UID define in .env
       - DOCKGID=${UID} # UID define in .env
