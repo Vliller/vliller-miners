@@ -14,4 +14,4 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-CMD [ "npm", "run", "start:miner:vlille" ]
+# CMD [ "npm", "run", "start:miner:vlille" ]
