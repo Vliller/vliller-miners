@@ -12,8 +12,32 @@ const VLILLE_URL = `${process.env.VLILLE_API_BASE}&rows=-1&apikey=${process.env.
 const ELASTIC_INDEX = process.env.ES_INDEX;
 // const ELASTIC_INDEX = 'demo';
 
+/**
+ * Basic Slack alerting
+ *
+ * @param {Error} error
+ */
+function sendAlertToSlack(error) {
+  request.post({
+    url: process.env.SLACK_WEBHOOK,
+    json: true,
+    body: {
+      text: error.message
+    }
+  }, (err) => {
+    if (err) {
+      console.error(err)
+    }
+  });
+}
+
+/**
+ * Vlille station state fetching
+ */
 request(VLILLE_URL, { json: true }, (error, response, body) => {
   if (error) {
+    sendAlertToSlack(error);
+
     throw error;
   }
 
@@ -34,8 +58,6 @@ request(VLILLE_URL, { json: true }, (error, response, body) => {
  * @param {Array} data
  */
 function prepareData(data) {
-  // console.debug(data.records[0])
-
   return data.records.map(record => {
     return {
       timestamp: record.record_timestamp,
@@ -55,18 +77,19 @@ function prepareData(data) {
  */
 async function storeDataToES(data) {
   try {
-    const response = await esClient.bulk({
+    await esClient.bulk({
       body: prepareEsBodyRequest(data)
     });
-
-    // console.debug(response.items)
   } catch (error) {
-    console.trace(error.message)
+    sendAlertToSlack(error)
+
+    console.error(error.message)
   }
 }
 
 /**
  * Prepare data to indexation format for ES
+ *
  * @param {Array} data
  */
 function prepareEsBodyRequest(data) {
