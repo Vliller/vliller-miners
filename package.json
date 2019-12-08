@@ -1,0 +1,24 @@
+{
+  "name": "vliller-miners",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "author": "Alexandre Bonhomme <alex@aqelia.com>",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "start:miner:vlille": "node src/miners/vlille.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AQELIA/vliller-miners.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AQELIA/vliller-miners/issues"
+  },
+  "homepage": "https://github.com/AQELIA/vliller-miners#readme",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "elasticsearch": "^15.1.1",
+    "request": "^2.88.0"
+  }
+}
